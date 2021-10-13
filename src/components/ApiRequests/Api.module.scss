@@ -1,0 +1,30 @@
+.information_container {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+
+
+  .type_something {
+    color: fuchsia;
+    height: 55vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    p {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    span {
+      color: fuchsia;
+      font-size: 30px;
+    }
+  }
+
+}
+
