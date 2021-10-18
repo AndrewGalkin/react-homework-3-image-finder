@@ -13,7 +13,7 @@ import LoadMoreButton from "../LoadMoreButton/LoadMoreButton";
 class ApiResults extends React.Component {
 
   state = {
-    hits: null,
+    hits: [],
     loading: false,
     showModal: false,
     page: 1,
@@ -28,44 +28,50 @@ class ApiResults extends React.Component {
     imgType: 'all'
   }
 
+
   toggleModal = () => {
     this.setState(state => ({
       showModal: !state.showModal
     }))
   }
 
+
   getImages = () => {
     const {BASE_URL, imgType, orientation, KEY} = this.api
     const nextTag = this.props.hitsTags
     const {page} = this.state
-    this.setState({loading: true, hits: null, showLoadMoreBtn: false})
+    this.setState({loading: true, showLoadMoreBtn: false})
     fetch(`${BASE_URL}?image_type=${imgType}&orientation=${orientation}&page=${page}&per_page=12&key=${KEY}&q=${nextTag}`)
       .then(response => response.json())
       .then(hits => {
+        this.setState({hits: [...this.state.hits, ...hits.hits]})
+        this.setState({showLoadMoreBtn: true})
+        this.setState(prevState => ({
+          page: prevState.page + 1
+        }))
         if (!hits.hits.length) {
           toast("Nothing found!")
+          this.setState({showLoadMoreBtn: false})
         }
-        if (hits.hits.length > 0 && hits.hits.length >= 12) {
-          this.setState({hits})
-          this.setState({showLoadMoreBtn: true})
-          this.setState(prevState => ({
-            page: prevState.page + 1
-          }))
+        if (page !== 1) {
+          this.scrollOnLoadButton();
         }
       })
       .finally(() =>
         this.setState({loading: false})
       )
   }
-
   componentDidUpdate(prevProps, prevState) {
     const prevTag = prevProps.hitsTags
     const nextTag = this.props.hitsTags
     if (prevTag !== nextTag) {
+      this.state.hits = "";
+      this.state.page = 1;
       this.getImages()
       this.setState({showLoadMoreBtn: false})
     }
   }
+
 
   handleGalleryItem = fullImageUrl => {
     this.setState({
@@ -73,14 +79,12 @@ class ApiResults extends React.Component {
       showModal: true,
     });
   };
-
-  // loadMore = () => {
-  //   this.setState((prevState) => {
-  //     return {
-  //       page: prevState.page + 1
-  //     }
-  //   })
-  // }
+  scrollOnLoadButton = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
 
   render() {
     const {loading, hits, showModal, largeImage, showLoadMoreBtn} = this.state;
@@ -92,7 +96,7 @@ class ApiResults extends React.Component {
                         rtl={false} theme="dark" pauseOnFocusLoss={false} draggable pauseOnHover/>
         {loading && (<Loading/>)}
         {!hitsTags && (<MainScreen/>)}
-        {hits && (<RenderHits onImageClick={this.handleGalleryItem} hits={hits.hits}/>)}
+        {hits && (<RenderHits onImageClick={this.handleGalleryItem} hits={hits}/>)}
         {showModal && (<Modal closeModal={this.toggleModal}>
           <img className={classes.modal_img} src={largeImage} alt="modal"/>
           <button className={classes.close_btn} onClick={this.toggleModal}>
