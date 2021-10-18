@@ -1,5 +1,5 @@
 import SearchBar from "./components/SearchHead/SearchBar";
-import ImageGallery from "./components/ApiRequests/ImageGallery";
+import ApiResults from "./components/ApiRequests/ApiResults";
 import React from "react";
 
 
@@ -16,7 +16,7 @@ export default class App extends React.Component {
     return (
       <div className={"main_content"}>
         <SearchBar onSubmit={this.handleSearchSubmit}/>
-        <ImageGallery hitsTags={this.state.hitsTags}/>
+        <ApiResults hitsTags={this.state.hitsTags}/>
       </div>
     )
   }

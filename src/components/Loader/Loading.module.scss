@@ -1,0 +1,19 @@
+.loading {
+  color: fuchsia;
+  font-weight: bold;
+  height: 55vh;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  margin-bottom: 10px;
+  align-items: center;
+
+  p {
+    margin-bottom: 20px;
+  }
+
+  img {
+    margin: 0 auto;
+  }
+}

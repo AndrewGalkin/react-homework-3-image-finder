@@ -1,6 +1,8 @@
 import React from "react";
 import classes from "./SearchBar.module.scss";
 import shortid from "shortid"
+import {toast, ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 class SearchBar extends React.Component {
 
@@ -17,7 +19,7 @@ class SearchBar extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     if (this.state.hitsTags.trim() === "") {
-      alert("TI SHO VASYA")
+      toast("Your form is empty!")
       return
     }
     this.props.onSubmit(this.state.hitsTags)
@@ -26,6 +28,7 @@ class SearchBar extends React.Component {
   }
 
   render() {
+    const {hitsTags} = this.state
     return (
       <header className={classes.Searchbar}>
         <form onSubmit={this.handleSubmit} className={classes.search_form}>
@@ -35,7 +38,7 @@ class SearchBar extends React.Component {
             autoComplete="off"
             id={this.uniqueId}
             autoFocus
-            value={this.state.hitsTags}
+            value={hitsTags}
             onChange={this.handleChangeName}
             placeholder="Search images and photos"
           />
@@ -44,6 +47,8 @@ class SearchBar extends React.Component {
             <span>Search</span>
           </button>
         </form>
+        <ToastContainer position="top-right" autoClose={2500} hideProgressBar={false} newestOnTop={false} closeOnClick
+                        rtl={false} theme="dark" pauseOnFocusLoss={false} draggable pauseOnHover/>
       </header>
     )
   }

@@ -1,0 +1,20 @@
+.btn_container {
+  display: flex;
+  width: 95%;
+  margin: 0 auto;
+  justify-content: center;
+
+  .load_more_btn {
+    width: 200px;
+    border-radius: 25px;
+    background-color: transparent;
+    border: 1px solid fuchsia;
+    box-shadow: rgb(255, 0, 255) 0 0px 20px 0;
+    color: white;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+}
+
